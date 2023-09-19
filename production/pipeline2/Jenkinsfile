@@ -1,0 +1,17 @@
+pipeline {
+    agent any
+    stages { 
+        stage('Clone') {
+            sh 'Clone pipeline 2 - production'
+        }
+        stage('Build') {
+            sh 'Build pipeline 2 - production'
+        }
+        stage('Test') {
+           sh 'Test pipeline 2 - production'
+        }
+        stage('Deploy') {
+            sh 'Deploy pipeline 2 - production'
+        }
+    }
+}
