@@ -2,7 +2,9 @@ pipeline {
     agent any
     stages { 
         stage('Clone') {
-            sh 'Clone pipeline'
+            steps{
+                echo 'Clone pipeline'
+            }
         }
         stage('Build') {
             sh 'Build pipeline'
