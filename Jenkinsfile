@@ -1,11 +1,10 @@
 pipeline {
     agent any
-    tools {
-        terraform 'terraform'
-    }
     stages { 
         stage('Clone') {
-            git branch: 'main', credentialsId: 'github-account', url: 'https://github.com/minhquoc1299/dc11-dot-quoctran-w4-terraform.git'
+            steps {
+                git branch: 'main', credentialsId: 'github-account', url: 'https://github.com/minhquoc1299/dc11-dot-quoctran-w4-terraform.git'
+            }
         }
 
         stage('Init Provider') {
