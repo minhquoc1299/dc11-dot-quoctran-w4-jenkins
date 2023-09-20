@@ -20,14 +20,15 @@ pipeline {
             }
         }
        
-        post { 
-            always { 
-                mail bcc: '', body: '''$BUILD_NUMBER
-                $BUILD_ID
-                $BUILD_URL
-                $NODE_NAME
-                $JOB_NAME''', cc: 'manager@yopmail.com', from: '', replyTo: '', subject: '$BUILD_TAG', to: 'tmquoc@tma.com.vn'
-            }
+    }
+
+    post { 
+        always { 
+            mail bcc: '', body: '''$BUILD_NUMBER
+            $BUILD_ID
+            $BUILD_URL
+            $NODE_NAME
+            $JOB_NAME''', cc: 'manager@yopmail.com', from: '', replyTo: '', subject: '$BUILD_TAG', to: 'tmquoc@tma.com.vn'
         }
     }
 }
