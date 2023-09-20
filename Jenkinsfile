@@ -1,24 +1,33 @@
 pipeline {
     agent any
+    tools {
+        terraform 'terraform'
+    }
     stages { 
         stage('Clone') {
-            steps{
-                echo 'Clone pipeline'
+            git branch: 'main', credentialsId: 'github-account', url: 'https://github.com/minhquoc1299/dc11-dot-quoctran-w4-terraform.git'
+        }
+
+        stage('Init Provider') {
+            steps {
+                sh 'terraform init'
             }
         }
-        stage('Build') {
-            steps{
-                echo 'Build pipeline'
+
+        stage('Validate ') {
+            steps {
+                sh 'terraform fmt'
+                sh 'terraform validate'
             }
         }
-        stage('Test') {
-           steps{
-                echo 'Test pipeline'
-            }
-        }
-        stage('Deploy') {
-           steps{
-             echo 'Deploy pipeline'
+       
+        post { 
+            always { 
+                mail bcc: '', body: '''$BUILD_NUMBER
+                $BUILD_ID
+                $BUILD_URL
+                $NODE_NAME
+                $JOB_NAME''', cc: 'manager@yopmail.com', from: '', replyTo: '', subject: '$BUILD_TAG', to: 'tmquoc@tma.com.vn'
             }
         }
     }
