@@ -7,18 +7,18 @@ pipeline {
             }
         }
 
-        stage('Init Provider') {
-            steps {
-                sh 'terraform init'
-            }
-        }
+        // stage('Init Provider') {
+        //     steps {
+        //         sh 'terraform init'
+        //     }
+        // }
 
-        stage('Validate ') {
-            steps {
-                sh 'terraform fmt'
-                sh 'terraform validate'
-            }
-        }
+        // stage('Validate ') {
+        //     steps {
+        //         sh 'terraform fmt'
+        //         sh 'terraform validate'
+        //     }
+        // }
        
     }
 
