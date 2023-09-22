@@ -20,7 +20,7 @@ pipeline {
             }
         }
 
-        stage('Terraform Plan & Send Mail') {
+        stage('Terraform Plan Send Mail') {
             script {
                     def planOutput = sh(script: 'terraform plan -out=tfplan', returnStdout: true).trim()
                     emailext subject: 'Terraform Plan for PR',
@@ -32,14 +32,14 @@ pipeline {
        
     }
 
-    post { 
+    // post { 
         
-        success { 
-            mail bcc: '', body: '${BUILD_NUMBER}-${BUILD_ID}-${BUILD_URL}-${NODE_NAME}-${JOB_NAME}', cc: 'manager@yopmail.com, tmquoc@tma.com.vn', from: '', replyTo: '', subject: '${BUILD_TAG}', to: ${CHANGES}
-        }
+    //     success { 
+    //         mail bcc: '', body: '${BUILD_NUMBER}-${BUILD_ID}-${BUILD_URL}-${NODE_NAME}-${JOB_NAME}', cc: 'manager@yopmail.com, tmquoc@tma.com.vn', from: '', replyTo: '', subject: '${BUILD_TAG}', to: ${CHANGES}
+    //     }
 
-        failure { 
-            mail bcc: '', body: '${BUILD_NUMBER}-${BUILD_ID}-${BUILD_URL}-${NODE_NAME}-${JOB_NAME}', cc: 'manager@yopmail.com, tmquoc@tma.com.vn', from: '', replyTo: '', subject: '${BUILD_TAG}', to: ${CHANGES}
-        }
-    }
+    //     failure { 
+    //         mail bcc: '', body: '${BUILD_NUMBER}-${BUILD_ID}-${BUILD_URL}-${NODE_NAME}-${JOB_NAME}', cc: 'manager@yopmail.com, tmquoc@tma.com.vn', from: '', replyTo: '', subject: '${BUILD_TAG}', to: ${CHANGES}
+    //     }
+    // }
 }
