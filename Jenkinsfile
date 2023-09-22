@@ -9,7 +9,13 @@ pipeline {
 
         stage('Terraform Init') {
             steps {
-                sh 'terraform init'
+                script {
+                    echo env.BRANCH_NAME
+                    def branchName = env.BRANCH_NAME
+                    echo "terraform workspace select ${branchName}"
+                    terraform workspace select ${env.BRANCH_NAME}
+                    terraform init
+                }
             }
         }
 
@@ -20,14 +26,16 @@ pipeline {
             }
         }
 
-        stage('Terraform Plan & Send Mail') {
-            script {
-                    def planOutput = sh(script: 'terraform plan -out=tfplan', returnStdout: true).trim()
-                    emailext subject: 'Terraform Plan for PR',
-                              body: planOutput,
-                              to: currentBuild.rawBuild.getCause(hudson.model.Cause$UserIdCause).getUserName(),
-                              mimeType: 'text/plain'
-                }
+        stage('Terraform Plan Send Mail') {
+            steps{
+                script {
+                        def planOutput = sh(script: 'terraform plan -out=tfplan', returnStdout: true).trim()
+                        emailext subject: 'Terraform Plan for PR',
+                                body: planOutput,
+                                to: currentBuild.rawBuild.getCause(hudson.model.Cause$UserIdCause).getUserName(),
+                                mimeType: 'text/plain'
+                    }
+            }
         }
        
     }
@@ -35,11 +43,11 @@ pipeline {
     post { 
         
         success { 
-            mail bcc: '', body: '${BUILD_NUMBER}-${BUILD_ID}-${BUILD_URL}-${NODE_NAME}-${JOB_NAME}', cc: 'manager@yopmail.com, tmquoc@tma.com.vn', from: '', replyTo: '', subject: '${BUILD_TAG}', to: ${CHANGES}
+            mail bcc: '', body: '${BUILD_NUMBER}-${BUILD_ID}-${BUILD_URL}-${NODE_NAME}-${JOB_NAME}', cc: 'manager@yopmail.com, tmquoc@tma.com.vn', from: '', replyTo: '', subject: '${BUILD_TAG}', to: env.CHANGES
         }
 
         failure { 
-            mail bcc: '', body: '${BUILD_NUMBER}-${BUILD_ID}-${BUILD_URL}-${NODE_NAME}-${JOB_NAME}', cc: 'manager@yopmail.com, tmquoc@tma.com.vn', from: '', replyTo: '', subject: '${BUILD_TAG}', to: ${CHANGES}
+            mail bcc: '', body: '${BUILD_NUMBER}-${BUILD_ID}-${BUILD_URL}-${NODE_NAME}-${JOB_NAME}', cc: 'manager@yopmail.com, tmquoc@tma.com.vn', from: '', replyTo: '', subject: '${BUILD_TAG}', to: env.CHANGES
         }
     }
 }
