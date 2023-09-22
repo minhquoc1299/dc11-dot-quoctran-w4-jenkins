@@ -1,8 +1,8 @@
 pipeline {
     agent any
     environment {
-        AWS_ACCESS_KEY_ID = credentials("aws-secret-key-id-main")
-        AWS_SECRET_ACCESS_KEY = credentials("aws-secret-access-key-main")
+        AWS_ACCESS_KEY_ID = credentials("aws-secret-key-id-env-main")
+        AWS_SECRET_ACCESS_KEY = credentials("aws-secret-key-id-env-main")
     }
     stages { 
         stage('Clone') {
