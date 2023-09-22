@@ -12,7 +12,7 @@ pipeline {
                 echo env.BRANCH_NAME
                 def branchName = env.BRANCH_NAME
                 echo "terraform workspace select ${branchName}"
-              # sh 'terraform workspace select ${env.BRANCH_NAME}'
+                // sh 'terraform workspace select ${env.BRANCH_NAME}'
                 // sh 'terraform init'
             }
         }
