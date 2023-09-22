@@ -1,5 +1,9 @@
 pipeline {
     agent any
+    environment {
+        AWS_ACCESS_KEY_ID = credentials("aws-secret-key-id-main")
+        AWS_SECRET_ACCESS_KEY = credentials("aws-secret-access-key-main")
+    }
     stages { 
         stage('Clone') {
             steps {
@@ -32,6 +36,7 @@ pipeline {
                 sh 'terraform validate'
             }
         }
+       
     }
 
     post { 
