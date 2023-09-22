@@ -10,16 +10,13 @@ pipeline {
         stage('Terraform Init') {
             steps {
                 script {
-                    echo env.BRANCH_NAME
-                    def branchName = env.BRANCH_NAME
-                    echo "terraform workspace select ${branchName}"
-                    terraform workspace select ${env.BRANCH_NAME}
                     terraform init
+                    terraform workspace select ${env.BRANCH_NAME}
                 }
             }
         }
 
-        stage('Terraform') {
+        stage('Terraform Validate') {
             steps {
                 sh 'terraform fmt'
                 sh 'terraform validate'
