@@ -1,11 +1,10 @@
 pipeline {
     agent any
-    stages { 
-
-        environment {
+    environment {
             AWS_ACCESS_KEY_ID     = credentials('aws-secret-key-id-${env.BRANCH_NAME}')
             AWS_SECRET_ACCESS_KEY = credentials('aws-secret-access-key-${env.BRANCH_NAME}')
-        }
+    }
+    stages { 
         stage('Clone') {
             steps {
                 git branch: 'main', credentialsId: 'github-account', url: 'https://github.com/minhquoc1299/dc11-dot-quoctran-w4-terraform.git'
