@@ -11,7 +11,16 @@ pipeline {
             steps {
                 script {
                     terraform init
+                    echo "[Debug] Running terraform init successfully~"
+                    if terraform workspace list | grep -q env.BRANCH_NAME; then
+                        echo "Workspace ${env.BRANCH_NAME} already exists"
+                    else
+                        # Nếu không tồn tại, tạo mới workspace
+                        terraform workspace new myworkspace
+                        echo "Workspace ${env.BRANCH_NAME} created"
+                    fi
                     terraform workspace select ${env.BRANCH_NAME}
+                    echo "[Debug] Running terraform workspace select successfully~"
                 }
             }
         }
