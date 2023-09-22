@@ -1,6 +1,11 @@
 pipeline {
     agent any
     stages { 
+
+        environment {
+            AWS_ACCESS_KEY_ID     = credentials('aws-secret-key-id-${env.BRANCH_NAME}')
+            AWS_SECRET_ACCESS_KEY = credentials('aws-secret-access-key-${env.BRANCH_NAME}')
+        }
         stage('Clone') {
             steps {
                 git branch: 'main', credentialsId: 'github-account', url: 'https://github.com/minhquoc1299/dc11-dot-quoctran-w4-terraform.git'
@@ -13,9 +18,9 @@ pipeline {
                     sh 'terraform init'
                     echo '[Debug] Running terraform init successfully~'
                     def workspaceList = sh(script: 'terraform workspace list', returnStatus: true).trim()
-                    if (workspaceList.contains(env.BRANCH_NAME))
+                    if (workspaceList.contains(env.BRANCH_NAME)){
                         echo 'Workspace ${env.BRANCH_NAME} already exists'
-                    else {
+                    }else {
                         sh 'terraform workspace new myworkspace'
                         echo 'Workspace ${env.BRANCH_NAME} created'
                     }    
