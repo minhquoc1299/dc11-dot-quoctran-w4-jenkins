@@ -1,10 +1,5 @@
 pipeline {
     agent any
-    environment {
-        BRANCH_NAME = sh(script: 'git rev-parse --abbrev-ref HEAD', returnStdout: true).trim()
-        AWS_ACCESS_KEY_ID = credentials("aws-secret-key-id-\${BRANCH_NAME}")
-        AWS_SECRET_ACCESS_KEY = credentials("aws-secret-access-key-\${BRANCH_NAME}")
-    }
     stages { 
         stage('Clone') {
             steps {
@@ -37,19 +32,6 @@ pipeline {
                 sh 'terraform validate'
             }
         }
-
-        stage('Terraform Plan Send Mail') {
-            steps{
-                script {
-                        def planOutput = sh(script: 'terraform plan -out=tfplan', returnStdout: true).trim()
-                        emailext subject: 'Terraform Plan for PR',
-                                body: planOutput,
-                                to: currentBuild.rawBuild.getCause(hudson.model.Cause$UserIdCause).getUserName(),
-                                mimeType: 'text/plain'
-                    }
-            }
-        }
-       
     }
 
     post { 
