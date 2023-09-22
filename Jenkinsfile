@@ -21,13 +21,15 @@ pipeline {
         }
 
         stage('Terraform Plan Send Mail') {
-            script {
-                    def planOutput = sh(script: 'terraform plan -out=tfplan', returnStdout: true).trim()
-                    emailext subject: 'Terraform Plan for PR',
-                              body: planOutput,
-                              to: currentBuild.rawBuild.getCause(hudson.model.Cause$UserIdCause).getUserName(),
-                              mimeType: 'text/plain'
-                }
+            steps{
+                script {
+                        def planOutput = sh(script: 'terraform plan -out=tfplan', returnStdout: true).trim()
+                        emailext subject: 'Terraform Plan for PR',
+                                body: planOutput,
+                                to: currentBuild.rawBuild.getCause(hudson.model.Cause$UserIdCause).getUserName(),
+                                mimeType: 'text/plain'
+                    }
+            }
         }
        
     }
