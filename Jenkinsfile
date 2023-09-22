@@ -9,28 +9,30 @@ pipeline {
 
         stage('Terraform Init') {
             steps {
-                sh 'terraform init'
+                echo `terraform workspace select ${env.BRANCH_NAME}`
+                sh `terraform workspace select ${env.BRANCH_NAME}`
+                // sh 'terraform init'
             }
         }
 
-        stage('Terraform') {
-            steps {
-                sh 'terraform fmt'
-                sh 'terraform validate'
-            }
-        }
+        // stage('Terraform') {
+        //     steps {
+        //         sh 'terraform fmt'
+        //         sh 'terraform validate'
+        //     }
+        // }
 
-        stage('Terraform Plan Send Mail') {
-            steps{
-                script {
-                        def planOutput = sh(script: 'terraform plan -out=tfplan', returnStdout: true).trim()
-                        emailext subject: 'Terraform Plan for PR',
-                                body: planOutput,
-                                to: currentBuild.rawBuild.getCause(hudson.model.Cause$UserIdCause).getUserName(),
-                                mimeType: 'text/plain'
-                    }
-            }
-        }
+        // stage('Terraform Plan Send Mail') {
+        //     steps{
+        //         script {
+        //                 def planOutput = sh(script: 'terraform plan -out=tfplan', returnStdout: true).trim()
+        //                 emailext subject: 'Terraform Plan for PR',
+        //                         body: planOutput,
+        //                         to: currentBuild.rawBuild.getCause(hudson.model.Cause$UserIdCause).getUserName(),
+        //                         mimeType: 'text/plain'
+        //             }
+        //     }
+        // }
        
     }
 
