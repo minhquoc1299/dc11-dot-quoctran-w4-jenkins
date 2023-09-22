@@ -1,8 +1,9 @@
 pipeline {
     agent any
     environment {
-            AWS_ACCESS_KEY_ID     = credentials('aws-secret-key-id-${env.BRANCH_NAME}')
-            AWS_SECRET_ACCESS_KEY = credentials('aws-secret-access-key-${env.BRANCH_NAME}')
+        BRANCH_NAME = sh(script: 'git rev-parse --abbrev-ref HEAD', returnStdout: true).trim()
+        AWS_ACCESS_KEY_ID = credentials("aws-secret-key-id-\${BRANCH_NAME}")
+        AWS_SECRET_ACCESS_KEY = credentials("aws-secret-access-key-\${BRANCH_NAME}")
     }
     stages { 
         stage('Clone') {
