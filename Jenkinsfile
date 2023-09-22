@@ -16,11 +16,11 @@ pipeline {
                 script {
                     sh 'terraform init'
                     echo '[Debug] Running terraform init successfully~'
-                    def workspaceList = sh(script: 'terraform workspace list', returnStatus: true).trim()
+                    def workspaceList = sh(script: 'terraform workspace list', returnStatus: true)
                     if (workspaceList.contains(env.BRANCH_NAME)){
                         echo 'Workspace ${env.BRANCH_NAME} already exists'
                     }else {
-                        sh 'terraform workspace new myworkspace'
+                        sh 'terraform workspace new ${env.BRANCH_NAME}'
                         echo 'Workspace ${env.BRANCH_NAME} created'
                     }    
                  
