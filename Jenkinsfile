@@ -3,9 +3,9 @@ pipeline {
     environment {
         AWS_ACCESS_KEY_ID = credentials("aws-secret-key-id-env-main")
         AWS_SECRET_ACCESS_KEY = credentials("aws_secret_access_key_env_main")
-        CHANGE_ID = ${env.CHANGE_ID}
-        TARGET_BRANCH_NAME = ${env.CHANGE_TARGET}
-        SOURCE_BRANCH_NAME = ${env.CHANGE_BRANCH}
+        CHANGE_ID = "${env.CHANGE_ID}"
+        TARGET_BRANCH_NAME = "${env.CHANGE_TARGET}"
+        SOURCE_BRANCH_NAME = "${env.CHANGE_BRANCH}"
     }
     stages { 
         stage('Clone') {
