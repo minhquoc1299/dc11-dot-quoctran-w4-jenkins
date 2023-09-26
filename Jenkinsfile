@@ -36,6 +36,7 @@ pipeline {
                     // Make an HTTP GET request to the API
                     def response = httpRequest(
                         url: url_commit.replaceAll("\\{\\/sha\\}", pr_sha),
+                        httpMode: 'GET',
                         acceptType: 'APPLICATION_JSON'
                     )
 
