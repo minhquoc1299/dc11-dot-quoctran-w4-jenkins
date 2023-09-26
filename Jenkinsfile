@@ -25,13 +25,13 @@ pipeline {
         stage('Pipeline 1: Pull Request Validation') {
             steps {
                 script {
-                    echo Pipeline Pull Request Validation
-                    echo ref $ref
-                    echo before $before
-                    echo requestWithNumber $requestWithNumber
-                    echo requestWithString $requestWithString
-                    echo headerWithNumber $headerWithNumber
-                    echo headerWithString $headerWithString
+                    echo "Pipeline Pull Request Validation"
+                    echo "ref ${ref}"
+                    echo "before ${before}"
+                    echo "requestWithNumber ${requestWithNumber}"
+                    echo "requestWithString ${requestWithString}"
+                    echo "headerWithNumber ${headerWithNumber}"
+                    echo "headerWithString ${headerWithString}"
                 }
             }
         }
