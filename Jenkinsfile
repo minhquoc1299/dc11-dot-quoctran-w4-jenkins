@@ -30,12 +30,12 @@ pipeline {
                 }
             }
         }
-        stage('Pipeline 2: User commit and pull request'){
+        stage ('Pipeline 2: User commit and pull request') {
             steps{
                 script {
                     // Make an HTTP GET request to the API
                     def response = httpRequest(
-                        url: ${url_commit}.replaceAll("\\{\\/sha\\}", ${pr_sha}),
+                        url: url_commit.replaceAll("\\{\\/sha\\}", pr_sha),
                         acceptType: 'APPLICATION_JSON'
                     )
 
