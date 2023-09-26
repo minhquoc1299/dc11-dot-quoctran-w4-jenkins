@@ -21,7 +21,8 @@ pipeline {
                 script {
                     echo "Pipeline Pull Request Validation"
                     echo "ref ${ref}"
-                    echo "rp_id ${rp_id}"
+                    echo "ssh_url ${ssh_url}"
+                    echo "action ${action}"
                 }
             }
         }
