@@ -8,27 +8,27 @@ pipeline {
         SOURCE_BRANCH_NAME = "${env.CHANGE_BRANCH}"
     }
     triggers {
-    GenericTrigger(
-     genericVariables: [
-      [key: 'ref', value: '$.ref']
-     ],
+        GenericTrigger(
+            genericVariables: [
+            [key: 'ref', value: '$.ref']
+            ],
 
-     causeString: 'Triggered on $ref',
+            causeString: 'Triggered on $ref',
 
-     token: 'abc123',
-     tokenCredentialId: '',
+            token: 'SM778nZvxO',
+            tokenCredentialId: '',
 
-     printContributedVariables: true,
-     printPostContent: true,
+            printContributedVariables: true,
+            printPostContent: true,
 
-     silentResponse: false,
-     
-     shouldNotFlatten: false,
+            silentResponse: false,
+            
+            shouldNotFlatten: false,
 
-     regexpFilterText: '$ref',
-     regexpFilterExpression: 'refs/heads/' + BRANCH_NAME
-    )
-  }
+            regexpFilterText: '$ref',
+            regexpFilterExpression: 'refs/heads/' + BRANCH_NAME
+        )
+    }
     stages { 
         stage('Get GitHub Webhook Info') {
             steps {
