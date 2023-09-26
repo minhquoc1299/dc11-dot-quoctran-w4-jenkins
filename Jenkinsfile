@@ -27,7 +27,6 @@ pipeline {
                 script {
                     echo "Pipeline Pull Request Validation"
                     echo "ref ${ref}"
-                    echo "before ${before}"
                     echo "requestWithNumber ${requestWithNumber}"
                     echo "requestWithString ${requestWithString}"
                     echo "headerWithNumber ${headerWithNumber}"
