@@ -8,13 +8,15 @@ pipeline {
         SOURCE_BRANCH_NAME = "${env.CHANGE_BRANCH}"
     }
     stages { 
-        stage('Clone') {
-            steps {
-                script {
+        stage('Print ENV') {
+             script {
                     echo 'CHANGE_ID - ${CHANGE_ID}'
                     echo 'TARGET_BRANCH_NAME - ${TARGET_BRANCH_NAME}'
                     echo 'SOURCE_BRANCH_NAME - ${SOURCE_BRANCH_NAME}'
                 }
+        }
+        stage('Clone') {
+            steps {
                 git branch: env.CHANGE_BRANCH , credentialsId: 'github-account', url: 'https://github.com/minhquoc1299/dc11-dot-quoctran-w4-terraform.git'  
             }
         }
