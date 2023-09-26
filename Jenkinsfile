@@ -4,7 +4,8 @@ pipeline {
         GenericTrigger(
         genericVariables: [
             [key: 'ref', value: '$.ref'],
-            [key: 'ssh_url_2', value: '$.repository.ssh_url']
+            [key: 'ssh_url', value: '$.repository.ssh_url']
+            [key: 'action', value: '$.action']
         ],
         causeString: 'Triggered on $ref',
         regexpFilterExpression: '',
