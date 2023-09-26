@@ -8,6 +8,19 @@ pipeline {
         SOURCE_BRANCH_NAME = "${env.CHANGE_BRANCH}"
     }
     stages { 
+        stage('Get GitHub Webhook Info') {
+            steps {
+                script {
+                    def githubWebhookInfo = currentBuild.rawBuild.getCause(com.cloudbees.jenkins.GitHubPushCause)
+                    if (githubWebhookInfo != null) {
+                        def owner = githubWebhookInfo.getUserName()
+                        echo "Owner of the repository: ${owner}"
+                    } else {
+                        error("This build was not triggered by a GitHub webhook.")
+                    }
+                }
+            }
+        }
         stage('Print ENV') {
             steps{
                 script {
