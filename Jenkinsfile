@@ -5,8 +5,8 @@ pipeline {
             genericVariables: [
                 [key: 'ref', value: '$.ref'],
                 [key: 'ssh_url', value: '$.repository.ssh_url'],
-                [key: 'email_user_commit', value: '$.commits.committer.email'],
-                [key: 'full_name_user_commit', value: '$.commits.committer.name']
+                [key: 'email_user_commit', value: '$.commits[*].committer.email'],
+                [key: 'full_name_user_commit', value: '$.commits[*].committer.name']
             ],
             causeString: 'Triggered on $ref',
             regexpFilterExpression: '',
