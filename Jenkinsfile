@@ -11,9 +11,9 @@ pipeline {
         stage('Print ENV') {
             steps{
                 script {
-                    echo 'CHANGE_ID - ${CHANGE_ID}'
-                    echo 'TARGET_BRANCH_NAME - ${TARGET_BRANCH_NAME}'
-                    echo 'SOURCE_BRANCH_NAME - ${SOURCE_BRANCH_NAME}'
+                    echo 'CHANGE_ID - ' ${CHANGE_ID}
+                    echo 'TARGET_BRANCH_NAME - ' ${TARGET_BRANCH_NAME}
+                    echo 'SOURCE_BRANCH_NAME - ' ${SOURCE_BRANCH_NAME}
                 }
             }
         }
