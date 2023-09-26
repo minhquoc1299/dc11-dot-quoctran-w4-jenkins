@@ -11,14 +11,6 @@ pipeline {
         token: 'RO3bV0fpMs',
         printContributedVariables: true,
         printPostContent: true,
-        genericRequestVariables: [
-            [key: 'requestWithNumber', regexpFilter: '[^0-9]'],
-            [key: 'requestWithString', regexpFilter: '']
-        ],
-        genericHeaderVariables: [
-            [key: 'headerWithNumber', regexpFilter: '[^0-9]'],
-            [key: 'headerWithString', regexpFilter: '']
-        ],
         )
     }
     stages {
@@ -27,10 +19,6 @@ pipeline {
                 script {
                     echo "Pipeline Pull Request Validation"
                     echo "ref ${ref}"
-                    echo "requestWithNumber ${requestWithNumber}"
-                    echo "requestWithString ${requestWithString}"
-                    echo "headerWithNumber ${headerWithNumber}"
-                    echo "headerWithString ${headerWithString}"
                 }
             }
         }
