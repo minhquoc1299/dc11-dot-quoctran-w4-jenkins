@@ -1,4 +1,3 @@
-# Action pull request
 pipeline {
     agent any
     triggers {
