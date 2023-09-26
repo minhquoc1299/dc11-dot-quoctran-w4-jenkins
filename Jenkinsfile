@@ -2,17 +2,17 @@ pipeline {
     agent any
     triggers {
         GenericTrigger(
-        genericVariables: [
-            [key: 'ref', value: '$.ref'],
-            [key: 'ssh_url', value: '$.repository.ssh_url'],
-            [key: 'action', value: '$.action']
-        ],
-        causeString: 'Triggered on $ref',
-        regexpFilterExpression: '',
-        regexpFilterText: '',
-        token: 'RO3bV0fpMs',
-        printContributedVariables: true,
-        printPostContent: true,
+            genericVariables: [
+                [key: 'ref', value: '$.ref'],
+                [key: 'ssh_url', value: '$.repository.ssh_url'],
+                [key: 'full_name', value: '$.repository.full_name']
+            ],
+            causeString: 'Triggered on $ref',
+            regexpFilterExpression: '',
+            regexpFilterText: '',
+            token: 'RO3bV0fpMs',
+            printContributedVariables: true,
+            printPostContent: true,
         )
     }
     stages {
@@ -22,7 +22,7 @@ pipeline {
                     echo "Pipeline Pull Request Validation"
                     echo "ref ${ref}"
                     echo "ssh_url ${ssh_url}"
-                    echo "action ${action}"
+                    echo "full_name ${full_name}"
                 }
             }
         }
