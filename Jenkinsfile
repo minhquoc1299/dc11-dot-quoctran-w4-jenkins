@@ -4,7 +4,7 @@ pipeline {
         GenericTrigger(
             genericVariables: [
                 [key: 'pr_ref', value: '$.pull_request.head.ref', expressionType: 'JSONPath', regexpFilter: '', defaultValue: ''],
-                [key: 'sha', value: '$.pull_request.head.sha', expressionType: 'JSONPath', regexpFilter: '', defaultValue: ''],
+                [key: 'pr_sha', value: '$.pull_request.head.sha', expressionType: 'JSONPath', regexpFilter: '', defaultValue: ''],
                 [key: 'url_commit', value: '$.repository.commits_url', expressionType: 'JSONPath', regexpFilter: '', defaultValue: ''],
                 
             ],
@@ -35,7 +35,7 @@ pipeline {
                 script {
                     // Make an HTTP GET request to the API
                     def response = httpRequest(
-                        url: ${url_commit}.replaceAll("\\{\\/sha\\}", ${sha}),
+                        url: ${url_commit}.replaceAll("\\{\\/sha\\}", ${pr_sha}),
                         acceptType: 'APPLICATION_JSON'
                     )
 
