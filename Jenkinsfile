@@ -1,12 +1,13 @@
+# Action pull request
 pipeline {
     agent any
     triggers {
         GenericTrigger(
             genericVariables: [
-                [key: 'ref', value: '$.ref', expressionType: 'JSONPath', regexpFilter: '', defaultValue: ''],
-                [key: 'ssh_url', value: '$.repository.ssh_url', expressionType: 'JSONPath', regexpFilter: '', defaultValue: ''],
-                [key: 'email_user_commit', value: '$.commits[*].committer.email', expressionType: 'JSONPath', regexpFilter: '', defaultValue: ''],
-                [key: 'full_name_user_commit', value: '$.commits[*].committer.name', expressionType: 'JSONPath', regexpFilter: '', defaultValue: '']
+                [key: 'pr_ref', value: '$.pull_request.head.ref', expressionType: 'JSONPath', regexpFilter: '', defaultValue: ''],
+                [key: 'pr_sha', value: '$.pull_request.head.sha', expressionType: 'JSONPath', regexpFilter: '', defaultValue: ''],
+                [key: 'url_commit', value: '$.repository.commits_url', expressionType: 'JSONPath', regexpFilter: '', defaultValue: ''],
+                
             ],
             causeString: 'Triggered on $ref',
             regexpFilterExpression: '',
@@ -16,15 +17,17 @@ pipeline {
             printPostContent: true,
         )
     }
+    environment {
+        pr_user_email = ''
+    }
     stages {
         stage('Pipeline 1: Pull Request Validation') {
             steps {
                 script {
                     echo "Pipeline Pull Request Validation"
-                    echo "ref ${ref}"
-                    echo "ssh_url ${ssh_url}"
-                    echo "email_user_commit ${email_user_commit}"
-                    echo "full_name_user_commit ${full_name_user_commit}"
+                    echo "pr_ref ${pr_ref}"
+                    echo "pr_sha ${pr_sha}"
+                    echo "url_commit ${url_commit}"
                 }
             }
         }
