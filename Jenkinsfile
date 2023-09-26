@@ -9,11 +9,13 @@ pipeline {
     }
     stages { 
         stage('Print ENV') {
-             script {
+            steps{
+                script {
                     echo 'CHANGE_ID - ${CHANGE_ID}'
                     echo 'TARGET_BRANCH_NAME - ${TARGET_BRANCH_NAME}'
                     echo 'SOURCE_BRANCH_NAME - ${SOURCE_BRANCH_NAME}'
                 }
+            }
         }
         stage('Clone') {
             steps {
