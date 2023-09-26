@@ -4,7 +4,8 @@ pipeline {
         GenericTrigger(
             genericVariables: [
                 [key: 'ref', value: '$.ref'],
-                [key: 'ssh_url', value: '$.repository.ssh_url']
+                [key: 'ssh_url', value: '$.repository.ssh_url'],
+                [key: 'full_name', value: '$.repository.full_name']
             ],
             causeString: 'Triggered on $ref',
             regexpFilterExpression: '',
@@ -21,6 +22,7 @@ pipeline {
                     echo "Pipeline Pull Request Validation"
                     echo "ref ${ref}"
                     echo "ssh_url ${ssh_url}"
+                    echo "full_name ${full_name}"
                 }
             }
         }
