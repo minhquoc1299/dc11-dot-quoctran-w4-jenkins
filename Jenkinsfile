@@ -8,6 +8,7 @@ pipeline {
         causeString: 'Triggered on $ref',
         regexpFilterExpression: '',
         regexpFilterText: '',
+        token: 'RO3bV0fpMs',
         printContributedVariables: true,
         printPostContent: true
         )
