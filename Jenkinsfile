@@ -4,7 +4,7 @@ pipeline {
         GenericTrigger(
         genericVariables: [
             [key: 'ref', value: '$.ref'],
-            [key: 'pr_id', value: '$.pull_request.id']
+            [key: 'rp_id', value: '$.repository.id']
         ],
         causeString: 'Triggered on $ref',
         regexpFilterExpression: '',
@@ -20,7 +20,7 @@ pipeline {
                 script {
                     echo "Pipeline Pull Request Validation"
                     echo "ref ${ref}"
-                    echo "pr_id ${pr_id}"
+                    echo "rp_id ${rp_id}"
                 }
             }
         }
