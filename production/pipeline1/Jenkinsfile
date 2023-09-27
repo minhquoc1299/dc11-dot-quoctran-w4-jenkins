@@ -25,6 +25,9 @@ pipeline {
     environment {
         PR_USER_EMAIL = ''
         PR_USER_FULL_NAME = ''
+        AWS_ACCESS_KEY_ID = ''
+        AWS_SECRET_ACCESS_KEY = ''
+        AWS_DEFAULT_REGION = ''
     }
     stages {
         stage('Pipeline 0: Get account AWS by ENV') {
