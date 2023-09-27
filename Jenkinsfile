@@ -48,10 +48,10 @@ pipeline {
                         echo "Received JSON data: ${jsonResponse}"
 
                         // Example: Accessing a specific field in the JSON
-                        def fieldValue = jsonResponse.fieldName
+                        def fieldValue = jsonResponse.committer[0].email
                         echo "Value of 'fieldName': ${fieldValue}"
                     } else {
-                        error "API request failed with status ${response.status}"
+                        error "API committer request failed with status ${response.status}"
                     }
                 }
             }
