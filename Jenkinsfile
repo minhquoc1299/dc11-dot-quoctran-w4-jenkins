@@ -25,17 +25,7 @@ pipeline {
         PR_USER_FULL_NAME = ''
     }
     stages {
-        stage('Pipeline 1: Pull Request Validation') {
-            steps {
-                script {
-                    echo 'Pipeline Pull Request Validation'
-                    echo "pr_ref ${pr_ref}"
-                    echo "pr_sha ${pr_sha}"
-                    echo "url_commit ${url_commit}"
-                }
-            }
-        }
-        stage('Pipeline 2: User commit and pull request') {
+        stage('Pipeline 1: User commit and pull request') {
             steps {
                 script {
                     // https://api.github.com/repos/minhquoc1299/dc11-dot-quoctran-w4-terraform/commits{/sha}
@@ -57,7 +47,7 @@ pipeline {
             }
         }
 
-        stage('Pipeline 3: GIT Checkout SCM') {
+        stage('Pipeline 2: GIT Checkout SCM') {
             steps {
                 checkout([$class: 'GitSCM',
                   branches: [[name: pr_ref]],
@@ -66,9 +56,10 @@ pipeline {
             }
         }
 
-        stage('Pipeline 4: Terraform Validate') {
+        stage('Pipeline 3: Terraform Validate') {
             steps {
                 script {
+                    sh 'terraform workspace select main'
                     sh 'terraform init -no-color'
                     sh 'terraform fmt -no-color'
                     sh 'terraform validate -no-color'
@@ -76,7 +67,7 @@ pipeline {
             }
         }
 
-        stage('Pipeline 4: Terraform Plan') {
+        stage('Pipeline 4: Terraform Plan & Send Mail') {
             steps {
                 script {
                     def TERRAFORM_PLAN = sh (script: 'terraform plan -no-color', returnStdout: true)
