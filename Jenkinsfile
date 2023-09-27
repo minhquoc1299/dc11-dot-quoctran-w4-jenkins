@@ -19,6 +19,8 @@ pipeline {
         )
     }
     environment {
+        AWS_ACCESS_KEY_ID = credentials("aws-secret-key-id-env-main")
+        AWS_SECRET_ACCESS_KEY = credentials("aws_secret_access_key_env_main")
         pr_user_email = ''
         pr_user_full_name = ''
     }
