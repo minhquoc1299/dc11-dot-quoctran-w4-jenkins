@@ -25,7 +25,7 @@ pipeline {
     environment {
         PR_USER_EMAIL = ''
         PR_USER_FULL_NAME = ''
-        CREDENTIALS_ID = "devops-${target_ref.replaceAll('refs/heads/', '')}"
+        CREDENTIALS_ID = "devops-${ref.replaceAll('refs/heads/', '')}"
     }
     stages {
         stage('Pipeline 1: User commit and pull request') {
@@ -80,25 +80,23 @@ pipeline {
         stage('Pipeline 4: Terraform Plan & Send Mail') {
             steps {
                 script {
-                    def TERRAFORM_PLAN = sh(script: {
-                        withCredentials([[
-                            $class: 'AmazonWebServicesCredentialsBinding',
-                            credentialsId: CREDENTIALS_ID,
-                            accessKeyVariable: 'AWS_ACCESS_KEY_ID',
-                            secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
-                        ]]) {
-                            sh 'terraform plan -no-color'
-                        }
-                    }, returnStdout: true)
-                    mail(
-                        bcc: '',
-                        body: "Dear ${PR_USER_FULL_NAME},\n\nTerraform plan. Please see the build plan bellow:\n${TERRAFORM_PLAN}\nPull request: ${pr_url}\n\nThanks,\nJenkins System",
-                        cc: 'tmquoc@tma.com.vn',
-                        from: '',
-                        replyTo: '',
-                        subject: '[PR] Terraform PR Build Plan',
-                        to: PR_USER_EMAIL
-                    )
+                    withCredentials([[
+                        $class: 'AmazonWebServicesCredentialsBinding',
+                        credentialsId: CREDENTIALS_ID,
+                        accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+                        secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+                    ]]) {
+                        def TERRAFORM_PLAN = sh(script: 'terraform plan -no-color', returnStdout: true)
+                        mail(
+                            bcc: '',
+                            body: "Dear ${PR_USER_FULL_NAME},\n\nTerraform plan. Please see the build plan bellow:\n${TERRAFORM_PLAN}\nPull request: ${pr_url}\n\nThanks,\nJenkins System",
+                            cc: 'tmquoc@tma.com.vn',
+                            from: '',
+                            replyTo: '',
+                            subject: '[PR] Terraform PR Build Plan',
+                            to: PR_USER_EMAIL
+                        )
+                    }
                 }
             }
         }
