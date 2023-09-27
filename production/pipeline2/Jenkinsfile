@@ -38,6 +38,7 @@ pipeline {
                     sh 'AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}'
                     echo 'AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}'
                     sh 'AWS_DEFAULT_REGION=ap-southeast-1'
+                    echo 'AWS_DEFAULT_REGION: ${AWS_DEFAULT_REGION}'
                 }
             }
         }
