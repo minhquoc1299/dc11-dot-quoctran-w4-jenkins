@@ -19,7 +19,7 @@ pipeline {
     }
     environment {
         AWS_ACCESS_KEY_ID = "${credentials('devops-main').accessKeyId}"
-        AWS_SECRET_ACCESS_KEY = "credentials('devops-main').secretKey"
+        AWS_SECRET_ACCESS_KEY = "${credentials('devops-main').secretKey}"
     }
     stages {
         stage('Pipeline 1: GIT Checkout SCM') {
@@ -46,12 +46,12 @@ pipeline {
         failure {
             mail(
                 bcc: '',
-                body: "Dear ${PR_USER_FULL_NAME},\n\nTerraform plan failed. Please check the build logs for details.\nPull request: ${pr_url}\n\nThanks,\nJenkins System",
+                body: "Dear ${PR_USER_FULL_NAME},\n\nTerraform deploy failed. Please check the build logs for details.\n\nThanks,\nJenkins System",
                 cc: 'tmquoc@tma.com.vn',
                 from: '',
                 replyTo: '',
                 subject: '[PR] Terraform PR Build Fail',
-                to: PR_USER_EMAIL
+                to: 'manager@yopmail.com'
             )
         }
     }
