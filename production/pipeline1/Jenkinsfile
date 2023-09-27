@@ -23,8 +23,8 @@ pipeline {
         )
     }
     environment {
-        AWS_ACCESS_KEY_ID = "${credentials('devops-main').accessKeyId}"
-        AWS_SECRET_ACCESS_KEY = "${credentials('devops-main').secretKey}"
+        AWS_ACCESS_KEY_ID = "${credentials('devops-main').getAWSAccessKeyId()}"
+        AWS_SECRET_ACCESS_KEY = "${credentials('devops-main').getAWSSecretKey()}"
         PR_USER_EMAIL = ''
         PR_USER_FULL_NAME = ''
     }
