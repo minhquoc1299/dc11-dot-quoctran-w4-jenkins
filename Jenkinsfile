@@ -21,8 +21,8 @@ pipeline {
     environment {
         AWS_ACCESS_KEY_ID = credentials("aws-secret-key-id-env-main")
         AWS_SECRET_ACCESS_KEY = credentials("aws_secret_access_key_env_main")
-        pr_user_email = ''
-        pr_user_full_name = ''
+        PR_USER_EMAIL = ''
+        PR_USER_FULL_NAME = ''
     }
     stages {
         stage('Pipeline 1: Pull Request Validation') {
@@ -48,8 +48,8 @@ pipeline {
                     // Check if the request was successful (HTTP status code 200)
                     if (response.status == 200) {
                         def jsonResponse = readJSON text: response.content
-                        pr_user_email = jsonResponse.commit.committer.email
-                        pr_user_full_name = jsonResponse.commit.committer.name
+                        PR_USER_EMAIL = jsonResponse.commit.committer.email
+                        PR_USER_FULL_NAME = jsonResponse.commit.committer.name
                     } else {
                         error "API committer request failed with status ${response.status}"
                     }
@@ -86,15 +86,16 @@ pipeline {
     }
 
     post {
-        failure {
-            mail bcc: '', body: '''Dear ${pr_user_full_name},
-
-            Terraform plan failed. Please check the build logs for details.
-            Pull request: ${pr_url}
-
-            Thanks,
-            Jenkins System''', 
-            cc: 'tmquoc@tma.com.vn', from: '', replyTo: '', subject: '[PR] Terraform PR Build Fail', to: pr_user_email
+        always {
+            mail(
+                bcc: '',
+                body: "Dear ${PR_USER_FULL_NAME},\n\nTerraform plan failed. Please check the build logs for details.\nPull request: ${pr_url}\n\nThanks,\nJenkins System",
+                cc: 'tmquoc@tma.com.vn',
+                from: '',
+                replyTo: '',
+                subject: '[PR] Terraform PR Build Fail',
+                to: PR_USER_EMAIL
+            )
         }
     }
 }
