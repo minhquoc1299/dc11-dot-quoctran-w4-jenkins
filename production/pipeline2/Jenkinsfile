@@ -18,8 +18,8 @@ pipeline {
         )
     }
     environment {
-        AWS_ACCESS_KEY_ID = credentials('aws-secret-key-id-env-main')
-        AWS_SECRET_ACCESS_KEY = credentials('aws_secret_access_key_env_main')
+        AWS_ACCESS_KEY_ID = credentials('devops-main').accessKeyId
+        AWS_SECRET_ACCESS_KEY = credentials('devops-main').secretKey
     }
     stages {
         stage('Pipeline 1: GIT Checkout SCM') {
