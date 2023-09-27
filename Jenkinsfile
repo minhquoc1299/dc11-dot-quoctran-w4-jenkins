@@ -3,16 +3,20 @@ pipeline {
     triggers {
         GenericTrigger(
 
+            genericHeaderVariables: [
+                [key: 'X-GitHub-Event', regexpFilter: '']
+            ],
             genericVariables: [
                 [key: 'pr_ref', value: '$.pull_request.head.ref', expressionType: 'JSONPath', regexpFilter: '', defaultValue: ''],
                 [key: 'target_ref', value: '$.pull_request.base.ref', expressionType: 'JSONPath', regexpFilter: '', defaultValue: ''],
                 [key: 'pr_sha', value: '$.pull_request.head.sha', expressionType: 'JSONPath', regexpFilter: '', defaultValue: ''],
                 [key: 'pr_url', value: '$.pull_request.html_url', expressionType: 'JSONPath', regexpFilter: '', defaultValue: ''],
                 [key: 'url_commit', value: '$.repository.commits_url', expressionType: 'JSONPath', regexpFilter: '', defaultValue: ''],
+                [key: 'action', value: '$.action', expressionType: 'JSONPath', regexpFilter: '', defaultValue: ''],
 
             ],
             // causeString: 'Triggered on $ref',
-            regexpFilterExpression: 'target_ref =~ /refs\\/heads\\/main/',
+            regexpFilterExpression: 'X-GitHub-Event = /pull_request/ && target_ref =~ /refs\\/heads\\/main/ && action = /opened/',
             token: 'RO3bV0fpMs',
             printContributedVariables: true,
             printPostContent: true,
