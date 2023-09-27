@@ -28,13 +28,10 @@ pipeline {
     }
     stages {
         stage('Pipeline 0: Get account AWS by ENV') {
-            environment {
-                CREDENTIALS_ID = "devops-${pr_ref.replaceAll('refs/heads/', '')}"
-            }
             steps {
                 withCredentials([[
                     $class: 'AmazonWebServicesCredentialsBinding',
-                    credentialsId: CREDENTIALS_ID,
+                    credentialsId: 'devops-${pr_ref.replaceAll('refs/heads/', '')}',
                     accessKeyVariable: 'AWS_ACCESS_KEY_ID',
                     secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
                 ]]) {
