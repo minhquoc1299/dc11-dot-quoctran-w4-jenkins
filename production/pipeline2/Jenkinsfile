@@ -22,6 +22,19 @@ pipeline {
         AWS_SECRET_ACCESS_KEY = credentials('devops-main').getAWSSecretKey()
     }
     stages {
+        stage('Pipeline 0: Get account AWS by ENV') {
+            steps {
+                withCredentials([[
+                    $class: 'AmazonWebServicesCredentialsBinding',
+                    credentialsId: 'devops-main',
+                    accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+                    secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+                ]]) {
+                    echo 'AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}'
+                    echo 'AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}'
+                }
+            }
+        }
         stage('Pipeline 1: GIT Checkout SCM') {
             steps {
                 checkout([$class: 'GitSCM',
