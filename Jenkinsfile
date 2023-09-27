@@ -49,7 +49,8 @@ pipeline {
 
                         // Example: Accessing a specific field in the JSON
                         def fieldValue = jsonResponse.commit.committer.email
-                        echo "Value of 'fieldName': ${fieldValue}"
+                        echo "Value of 'pr_user_email': ${fieldValue}"
+                        pr_user_email = fieldValue
                     } else {
                         error "API committer request failed with status ${response.status}"
                     }
@@ -64,6 +65,12 @@ pipeline {
                     echo "Pipeline 2: Apply Changes"
                 }
             }
+        }
+    }
+
+    post {
+        always {
+            mail bcc: '', body: 'abc', cc: 'tmquoc@tma.com.vn', from: '', replyTo: '', subject: 'CI', to: pr_user_email
         }
     }
 }
