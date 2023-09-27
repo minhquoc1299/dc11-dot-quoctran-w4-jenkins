@@ -19,7 +19,7 @@ pipeline {
     }
     environment {
         SAMPLE_ID = ''
-        AWS_ACCESS_KEY_ID = ''
+        CREDENTIALS_ID = "devops-${ref.replaceAll('refs/heads/', '')}"
         AWS_SECRET_ACCESS_KEY = ''
         AWS_DEFAULT_REGION = ''
     }
@@ -27,17 +27,13 @@ pipeline {
         stage('Pipeline 0: Get account AWS by ENV') {
             steps {
                 script {
-                    def credentialsId = "devops-${ref.replaceAll('refs/heads/', '')}"
-                    echo credentialsId
+                    echo CREDENTIALS_ID
                     withCredentials([[
                         $class: 'AmazonWebServicesCredentialsBinding',
-                        credentialsId: credentialsId,
+                        credentialsId: CREDENTIALS_ID,
                         accessKeyVariable: 'AWS_ACCESS_KEY_ID',
                         secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
                     ]]) {
-                        script {
-                            AWS_ACCESS_KEY_ID = ${AWS_ACCESS_KEY_ID}
-                        }
                         
                     }
                 }
