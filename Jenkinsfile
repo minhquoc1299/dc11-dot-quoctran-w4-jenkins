@@ -12,8 +12,7 @@ pipeline {
 
             ],
             // causeString: 'Triggered on $ref',
-            regexpFilterExpression: 'target_ref',
-            regexpFilterText: 'refs/heads/main',
+            regexpFilterExpression: 'target_ref =~ /refs\\/heads\\/main/',
             token: 'RO3bV0fpMs',
             printContributedVariables: true,
             printPostContent: true,
