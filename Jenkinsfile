@@ -10,7 +10,7 @@ pipeline {
                 [key: 'url_commit', value: '$.repository.commits_url', expressionType: 'JSONPath', regexpFilter: '', defaultValue: ''],
 
             ],
-            causeString: 'Triggered on $ref',
+            // causeString: 'Triggered on $ref',
             regexpFilterExpression: '',
             regexpFilterText: '',
             token: 'RO3bV0fpMs',
@@ -69,7 +69,7 @@ pipeline {
         stage('Pipeline 4: Terraform Validate') {
             steps {
                 script {
-                    sh 'terraform init'
+                    sh 'terraform init -no-color'
                     sh 'terraform fmt'
                     sh 'terraform validate'
                 }
@@ -79,14 +79,28 @@ pipeline {
         stage('Pipeline 4: Terraform Plan') {
             steps {
                 script {
-                    sh 'terraform plan -no-color > output.txt'
+                    def TERRAFORM_PLAN = sh (script: 'terraform plan -no-color', returnStdout: true)
+                    mail(
+                        bcc: '',
+                        body: "Dear ${PR_USER_FULL_NAME},\n\n
+                        Terraform plan. Please see the build plan bellow:\n
+                        ${TERRAFORM_PLAN}\n
+                        Pull request: ${pr_url}\n\n
+                        Thanks,\n
+                        Jenkins System",
+                        cc: 'tmquoc@tma.com.vn',
+                        from: '',
+                        replyTo: '',
+                        subject: '[PR] Terraform PR Build Plan',
+                        to: PR_USER_EMAIL
+                    )
                 }
             }
         }
     }
 
     post {
-        always {
+        failure {
             mail(
                 bcc: '',
                 body: "Dear ${PR_USER_FULL_NAME},\n\nTerraform plan failed. Please check the build logs for details.\nPull request: ${pr_url}\n\nThanks,\nJenkins System",
