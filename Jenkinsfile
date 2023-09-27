@@ -70,8 +70,8 @@ pipeline {
             steps {
                 script {
                     sh 'terraform init -no-color'
-                    sh 'terraform fmt'
-                    sh 'terraform validate'
+                    sh 'terraform fmt -no-color'
+                    sh 'terraform validate -no-color'
                 }
             }
         }
