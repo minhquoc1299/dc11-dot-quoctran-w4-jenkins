@@ -25,6 +25,7 @@ pipeline {
     environment {
         PR_USER_EMAIL = ''
         PR_USER_FULL_NAME = ''
+        CREDENTIALS_ID = "devops-${target_ref.replaceAll('refs/heads/', '')}"
     }
     stages {
         stage('Pipeline 1: User commit and pull request') {
@@ -61,10 +62,17 @@ pipeline {
         stage('Pipeline 3: Terraform Validate') {
             steps {
                 script {
-                    sh 'terraform workspace select main -no-color'
-                    sh 'terraform init -no-color'
-                    sh 'terraform fmt -no-color'
-                    sh 'terraform validate -no-color'
+                     withCredentials([[
+                        $class: 'AmazonWebServicesCredentialsBinding',
+                        credentialsId: CREDENTIALS_ID,
+                        accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+                        secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+                    ]]) {
+                        sh 'terraform workspace select main -no-color'
+                        sh 'terraform init -no-color'
+                        sh 'terraform fmt -no-color'
+                        sh 'terraform validate -no-color'
+                    }
                 }
             }
         }
