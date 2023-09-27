@@ -94,8 +94,5 @@ pipeline {
             Jenkins System''', 
             cc: 'tmquoc@tma.com.vn', from: '', replyTo: '', subject: '[PR] Terraform PR Build Fail', to: pr_user_email
         }
-
-        success {
-        }
     }
 }
