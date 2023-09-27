@@ -20,25 +20,8 @@ pipeline {
     environment {
         SAMPLE_ID = ''
         CREDENTIALS_ID = "devops-${ref.replaceAll('refs/heads/', '')}"
-        AWS_SECRET_ACCESS_KEY = ''
-        AWS_DEFAULT_REGION = ''
     }
     stages {
-        stage('Pipeline 0: Get account AWS by ENV') {
-            steps {
-                script {
-                    echo CREDENTIALS_ID
-                    withCredentials([[
-                        $class: 'AmazonWebServicesCredentialsBinding',
-                        credentialsId: CREDENTIALS_ID,
-                        accessKeyVariable: 'AWS_ACCESS_KEY_ID',
-                        secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
-                    ]]) {
-                        
-                    }
-                }
-            }
-        }
         stage('Pipeline 1: GIT Checkout SCM') {
             steps {
                 checkout([$class: 'GitSCM',
