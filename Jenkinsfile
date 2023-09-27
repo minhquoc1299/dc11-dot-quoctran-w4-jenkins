@@ -2,7 +2,6 @@ pipeline {
     agent any
     triggers {
         GenericTrigger(
-
             genericHeaderVariables: [
                 [key: 'X-GitHub-Event', regexpFilter: '']
             ],
@@ -16,7 +15,7 @@ pipeline {
 
             ],
             // causeString: 'Triggered on $ref',
-            regexpFilterExpression: '^(?=.*X-GitHub-Event = ${X-GitHub-Event})(?=.*target_ref = ${target_ref})(?=.*action = ${action}).*$',
+            regexpFilterExpression: '^(?=.*target_ref = ${target_ref})(?=.*action = ${action}).*$',
             token: 'RO3bV0fpMs',
             printContributedVariables: true,
             printPostContent: true,
