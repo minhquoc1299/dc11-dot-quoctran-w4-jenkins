@@ -16,7 +16,7 @@ pipeline {
 
             ],
             // causeString: 'Triggered on $ref',
-            regexpFilterExpression: 'target_ref =~ /refs\\/heads\\/main/ && action =~ /opened/',
+            regexpFilterExpression: '^(?=.*X-GitHub-Event = ${X-GitHub-Event})(?=.*target_ref = ${target_ref})(?=.*action = ${action}).*$',
             token: 'RO3bV0fpMs',
             printContributedVariables: true,
             printPostContent: true,
