@@ -35,7 +35,7 @@ pipeline {
                     accessKeyVariable: 'AWS_ACCESS_KEY_ID',
                     secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
                 ]]) {
-                    echo 'CREDENTIALS_ID: ${CREDENTIALS_ID}'
+                    echo 'CREDENTIALS_ID: ${devops-${pr_ref.replaceAll('refs/heads/', '')}}'
                     sh 'AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}'
                     echo 'AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}'
                     sh 'AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}'
