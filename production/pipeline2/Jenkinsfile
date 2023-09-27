@@ -19,16 +19,18 @@ pipeline {
     }
     environment {
         SAMPLE_ID = ''
+        CREDENTIALS_ID = "devops-${ref.replaceAll('refs/heads/', '')}"
     }
     stages {
         stage('Pipeline 0: Get account AWS by ENV') {
             steps {
                 withCredentials([[
                     $class: 'AmazonWebServicesCredentialsBinding',
-                    credentialsId: 'devops-main',
+                    credentialsId: CREDENTIALS_ID,
                     accessKeyVariable: 'AWS_ACCESS_KEY_ID',
                     secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
                 ]]) {
+                    echo 'CREDENTIALS_ID: ${CREDENTIALS_ID}'
                     sh 'AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}'
                     echo 'AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}'
                     sh 'AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}'
@@ -48,8 +50,8 @@ pipeline {
         stage('Pipeline 2: Terraform Apply') {
             steps {
                 script {
-                    sh 'terraform workspace select main'
                     sh 'terraform init -no-color'
+                    sh 'terraform workspace select main -no-color'
                     sh 'terraform apply -auto-approve -no-color'
                 }
             }
