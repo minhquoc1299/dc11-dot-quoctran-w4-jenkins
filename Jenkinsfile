@@ -6,7 +6,7 @@ pipeline {
                 [key: 'pr_ref', value: '$.pull_request.head.ref', expressionType: 'JSONPath', regexpFilter: '', defaultValue: ''],
                 [key: 'target_ref', value: '$.pull_request.base.ref', expressionType: 'JSONPath', regexpFilter: '', defaultValue: ''],
                 [key: 'pr_sha', value: '$.pull_request.head.sha', expressionType: 'JSONPath', regexpFilter: '', defaultValue: ''],
-                [key: 'pr_url', value: '$.pull_request.url', expressionType: 'JSONPath', regexpFilter: '', defaultValue: ''],
+                [key: 'pr_url', value: '$.pull_request.html_url', expressionType: 'JSONPath', regexpFilter: '', defaultValue: ''],
                 [key: 'url_commit', value: '$.repository.commits_url', expressionType: 'JSONPath', regexpFilter: '', defaultValue: ''],
 
             ],
