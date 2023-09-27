@@ -51,9 +51,16 @@ pipeline {
         stage('Pipeline 2: Terraform Apply') {
             steps {
                 script {
-                    sh 'terraform init -no-color'
-                    sh 'terraform workspace select main -no-color'
-                    sh 'terraform apply -auto-approve -no-color'
+                    withCredentials([[
+                        $class: 'AmazonWebServicesCredentialsBinding',
+                        credentialsId: CREDENTIALS_ID,
+                        accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+                        secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+                    ]]) {
+                        sh 'terraform init -no-color'
+                        sh 'terraform workspace select main -no-color'
+                        sh 'terraform apply -auto-approve -no-color'
+                    }  
                 }
             }
         }
