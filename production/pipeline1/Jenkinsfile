@@ -24,7 +24,7 @@ pipeline {
     }
     environment {
         PR_USER_EMAIL = ''
-        PR_USER_FULL_NAME = ''
+        // PR_USER_FULL_NAME = ''
         CREDENTIALS_ID = "devops-${ref.replaceAll('refs/heads/', '')}"
     }
     stages {
@@ -42,7 +42,7 @@ pipeline {
                     if (response.status == 200) {
                         def jsonResponse = readJSON text: response.content
                         PR_USER_EMAIL = jsonResponse.commit.committer.email
-                        PR_USER_FULL_NAME = jsonResponse.commit.committer.name
+                        // PR_USER_FULL_NAME = jsonResponse.commit.committer.name
                     } else {
                         error "API committer request failed with status ${response.status}"
                     }
@@ -90,31 +90,31 @@ pipeline {
                         TERRAFORM_PLAN = sh(script: 'terraform plan -no-color', returnStdout: true)
                     }
                     echo TERRAFORM_PLAN
-                    mail(
-                        bcc: '',
-                        body: "Dear ${PR_USER_FULL_NAME},\n\nTerraform plan. Please see the build plan bellow:\n${TERRAFORM_PLAN}\nPull request: ${pr_url}\n\nThanks,\nJenkins System",
-                        cc: 'tmquoc@tma.com.vn',
-                        from: '',
-                        replyTo: '',
-                        subject: '[PR] Terraform PR Build Plan',
-                        to: PR_USER_EMAIL
-                    )
+                    // mail(
+                    //     bcc: '',
+                    //     body: "Dear ${PR_USER_FULL_NAME},\n\nTerraform plan. Please see the build plan bellow:\n${TERRAFORM_PLAN}\nPull request: ${pr_url}\n\nThanks,\nJenkins System",
+                    //     cc: 'tmquoc@tma.com.vn',
+                    //     from: '',
+                    //     replyTo: '',
+                    //     subject: '[PR] Terraform PR Build Plan',
+                    //     to: PR_USER_EMAIL
+                    // )
                 }
             }
         }
     }
 
-    post {
-        failure {
-            mail(
-                bcc: '',
-                body: "Dear ${PR_USER_FULL_NAME},\n\nTerraform plan failed. Please check the build logs for details.\nPull request: ${pr_url}\n\nThanks,\nJenkins System",
-                cc: 'tmquoc@tma.com.vn',
-                from: '',
-                replyTo: '',
-                subject: '[PR] Terraform PR Build Fail',
-                to: PR_USER_EMAIL
-            )
-        }
-    }
+    // post {
+    //     failure {
+    //         mail(
+    //             bcc: '',
+    //             body: "Dear ${PR_USER_FULL_NAME},\n\nTerraform plan failed. Please check the build logs for details.\nPull request: ${pr_url}\n\nThanks,\nJenkins System",
+    //             cc: 'tmquoc@tma.com.vn',
+    //             from: '',
+    //             replyTo: '',
+    //             subject: '[PR] Terraform PR Build Fail',
+    //             to: PR_USER_EMAIL
+    //         )
+    //     }
+    // }
 }
