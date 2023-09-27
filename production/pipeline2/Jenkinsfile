@@ -18,8 +18,7 @@ pipeline {
         )
     }
     environment {
-        AWS_ACCESS_KEY_ID = credentials('devops-main').getAWSAccessKeyId()
-        AWS_SECRET_ACCESS_KEY = credentials('devops-main').getAWSSecretKey()
+        SAMPLE_ID = ''
     }
     stages {
         stage('Pipeline 0: Get account AWS by ENV') {
