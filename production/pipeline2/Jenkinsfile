@@ -26,19 +26,23 @@ pipeline {
     stages {
         stage('Pipeline 0: Get account AWS by ENV') {
             steps {
-                withCredentials([[
-                    $class: 'AmazonWebServicesCredentialsBinding',
-                    credentialsId: "devops-${ref.replaceAll('refs/heads/', '')}",
-                    accessKeyVariable: 'AWS_ACCESS_KEY_ID',
-                    secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
-                ]]) {
-                    echo 'CREDENTIALS_ID: ${'devops-${pr_ref.replaceAll('refs/heads/', '')}'}'
-                    sh 'AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}'
-                    echo 'AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}'
-                    sh 'AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}'
-                    echo 'AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}'
-                    sh 'AWS_DEFAULT_REGION=ap-southeast-1'
-                    echo 'AWS_DEFAULT_REGION: ${AWS_DEFAULT_REGION}'
+                script {
+                    def credentialsId = "devops-${ref.replaceAll('refs/heads/', '')}"
+                    echo credentialsId
+                    withCredentials([[
+                        $class: 'AmazonWebServicesCredentialsBinding',
+                        credentialsId: credentialsId,
+                        accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+                        secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+                    ]]) {
+                        echo 'CREDENTIALS_ID: ${CREDENTIALS_ID}'
+                        sh 'AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}'
+                        echo 'AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}'
+                        sh 'AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}'
+                        echo 'AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}'
+                        sh 'AWS_DEFAULT_REGION=ap-southeast-1'
+                        echo 'AWS_DEFAULT_REGION: ${AWS_DEFAULT_REGION}'
+                    }
                 }
             }
         }
