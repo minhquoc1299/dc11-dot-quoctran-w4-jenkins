@@ -80,9 +80,7 @@ pipeline {
         stage('Pipeline 4: Terraform Plan & Send Mail') {
             steps {
                 script {
-                    environment {
-                        TERRAFORM_PLAN = ''
-                    }
+                    def TERRAFORM_PLAN = ''
                     withCredentials([[
                         $class: 'AmazonWebServicesCredentialsBinding',
                         credentialsId: CREDENTIALS_ID,
@@ -91,6 +89,7 @@ pipeline {
                     ]]) {
                         TERRAFORM_PLAN = sh(script: 'terraform plan -no-color', returnStdout: true)
                     }
+                    echo TERRAFORM_PLAN
                     mail(
                         bcc: '',
                         body: "Dear ${PR_USER_FULL_NAME},\n\nTerraform plan. Please see the build plan bellow:\n${TERRAFORM_PLAN}\nPull request: ${pr_url}\n\nThanks,\nJenkins System",
