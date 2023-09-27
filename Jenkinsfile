@@ -2,6 +2,7 @@ pipeline {
     agent any
     triggers {
         GenericTrigger(
+
             genericVariables: [
                 [key: 'pr_ref', value: '$.pull_request.head.ref', expressionType: 'JSONPath', regexpFilter: '', defaultValue: ''],
                 [key: 'target_ref', value: '$.pull_request.base.ref', expressionType: 'JSONPath', regexpFilter: '', defaultValue: ''],
@@ -11,8 +12,8 @@ pipeline {
 
             ],
             // causeString: 'Triggered on $ref',
-            regexpFilterExpression: '',
-            regexpFilterText: '',
+            regexpFilterExpression: 'target_ref',
+            regexpFilterText: 'refs/heads/main',
             token: 'RO3bV0fpMs',
             printContributedVariables: true,
             printPostContent: true,
