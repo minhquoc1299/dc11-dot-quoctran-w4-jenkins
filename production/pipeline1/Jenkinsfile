@@ -23,8 +23,8 @@ pipeline {
         )
     }
     environment {
-        AWS_ACCESS_KEY_ID = credentials("aws-secret-key-id-env-main")
-        AWS_SECRET_ACCESS_KEY = credentials("aws_secret_access_key_env_main")
+        AWS_ACCESS_KEY_ID = credentials('aws-secret-key-id-env-main')
+        AWS_SECRET_ACCESS_KEY = credentials('aws_secret_access_key_env_main')
         PR_USER_EMAIL = ''
         PR_USER_FULL_NAME = ''
     }
@@ -74,7 +74,7 @@ pipeline {
         stage('Pipeline 4: Terraform Plan & Send Mail') {
             steps {
                 script {
-                    def TERRAFORM_PLAN = sh (script: 'terraform plan -no-color', returnStdout: true)
+                    def TERRAFORM_PLAN = sh(script: 'terraform plan -no-color', returnStdout: true)
                     mail(
                         bcc: '',
                         body: "Dear ${PR_USER_FULL_NAME},\n\nTerraform plan. Please see the build plan bellow:\n${TERRAFORM_PLAN}\nPull request: ${pr_url}\n\nThanks,\nJenkins System",
