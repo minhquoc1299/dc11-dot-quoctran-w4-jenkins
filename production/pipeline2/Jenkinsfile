@@ -6,7 +6,7 @@ pipeline {
                 [key: 'X-GitHub-Event', regexpFilter: '']
             ],
             genericVariables: [
-                [key: 'ref', value: '$.pull_request.base.ref', expressionType: 'JSONPath', regexpFilter: '', defaultValue: ''],
+                [key: 'ref', value: '$.ref', expressionType: 'JSONPath', regexpFilter: '', defaultValue: ''],
                 [key: 'action', value: '$.action', expressionType: 'JSONPath', regexpFilter: '', defaultValue: '']
             ],
             // causeString: 'Triggered on $ref',
