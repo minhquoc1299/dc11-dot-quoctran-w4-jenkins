@@ -15,7 +15,7 @@ pipeline {
 
             ],
             // causeString: 'Triggered on $ref',
-            regexpFilterText: '${X-GitHub-Event} && ${target_ref} && ${action}',
+            regexpFilterText: '${x_github_event} && ${target_ref} && ${action}',
             regexpFilterExpression: 'pull_request && main && opened',
             token: 'RO3bV0fpMs',
             printContributedVariables: true,
