@@ -82,12 +82,7 @@ pipeline {
                     def TERRAFORM_PLAN = sh (script: 'terraform plan -no-color', returnStdout: true)
                     mail(
                         bcc: '',
-                        body: "Dear ${PR_USER_FULL_NAME},\n\n
-                        Terraform plan. Please see the build plan bellow:\n
-                        ${TERRAFORM_PLAN}\n
-                        Pull request: ${pr_url}\n\n
-                        Thanks,\n
-                        Jenkins System",
+                        body: "Dear ${PR_USER_FULL_NAME},\n\nTerraform plan. Please see the build plan bellow:\n${TERRAFORM_PLAN}\nPull request: ${pr_url}\n\nThanks,\nJenkins System",
                         cc: 'tmquoc@tma.com.vn',
                         from: '',
                         replyTo: '',
