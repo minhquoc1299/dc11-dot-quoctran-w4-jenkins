@@ -80,23 +80,26 @@ pipeline {
         stage('Pipeline 4: Terraform Plan & Send Mail') {
             steps {
                 script {
+                    environment {
+                        TERRAFORM_PLAN = ''
+                    }
                     withCredentials([[
                         $class: 'AmazonWebServicesCredentialsBinding',
                         credentialsId: CREDENTIALS_ID,
                         accessKeyVariable: 'AWS_ACCESS_KEY_ID',
                         secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
                     ]]) {
-                        def TERRAFORM_PLAN = sh(script: 'terraform plan -no-color', returnStdout: true)
-                        mail(
-                            bcc: '',
-                            body: "Dear ${PR_USER_FULL_NAME},\n\nTerraform plan. Please see the build plan bellow:\n${TERRAFORM_PLAN}\nPull request: ${pr_url}\n\nThanks,\nJenkins System",
-                            cc: 'tmquoc@tma.com.vn',
-                            from: '',
-                            replyTo: '',
-                            subject: '[PR] Terraform PR Build Plan',
-                            to: PR_USER_EMAIL
-                        )
+                        TERRAFORM_PLAN = sh(script: 'terraform plan -no-color', returnStdout: true)
                     }
+                    mail(
+                        bcc: '',
+                        body: "Dear ${PR_USER_FULL_NAME},\n\nTerraform plan. Please see the build plan bellow:\n${TERRAFORM_PLAN}\nPull request: ${pr_url}\n\nThanks,\nJenkins System",
+                        cc: 'tmquoc@tma.com.vn',
+                        from: '',
+                        replyTo: '',
+                        subject: '[PR] Terraform PR Build Plan',
+                        to: PR_USER_EMAIL
+                    )
                 }
             }
         }
