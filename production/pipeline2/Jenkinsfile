@@ -29,9 +29,11 @@ pipeline {
         stage('Pipeline 1: GIT Checkout SCM') {
             steps {
                 checkout([$class: 'GitSCM',
-                  branches: [[name: ref]],
-                  userRemoteConfigs: [[url: 'https://github.com/minhquoc1299/dc11-dot-quoctran-w4-terraform.git',
-                                      credentialsId: 'github-account']]])
+                  branches: [[name: pr_ref]],
+                  userRemoteConfigs: [[
+                    url: 'https://github.com/minhquoc1299/dc11-dot-quoctran-w4-terraform.git',
+                    credentialsId: 'github-account']]
+                ])
             }
         }
 
