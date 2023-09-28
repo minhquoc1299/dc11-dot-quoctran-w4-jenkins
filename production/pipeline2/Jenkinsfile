@@ -20,6 +20,10 @@ pipeline {
     environment {
         SAMPLE_ID = ''
         CREDENTIALS_ID = "devops-${ref.replaceAll('refs/heads/', '')}"
+        AWS_PROFILE = "devops-${target_ref.replaceAll('refs/heads/', '')}"
+        ENV = "devops-${ref.replaceAll('refs/heads/', '')}"
+        AWS_REGION_DEFAULT = 'ap-southeast-1'
+        
     }
     stages {
         stage('Pipeline 1: GIT Checkout SCM') {
@@ -42,6 +46,10 @@ pipeline {
                     ]]) {
                         sh 'terraform init -no-color'
                         sh 'terraform workspace select main -no-color'
+                        sh '/usr/local/bin/aws configure --profile ${AWS_PROFILE} set aws_access_key_id ${AWS_ACCESS_KEY_ID}'
+                        sh '/usr/local/bin/aws configure --profile ${AWS_PROFILE} set aws_secret_access_key ${AWS_SECRET_ACCESS_KEY}'
+                        sh '/usr/local/bin/aws configure --profile ${AWS_PROFILE} set region ${AWS_REGION_DEFAULT}'
+                        sh 'export AWS_PROFILE=${AWS_PROFILE}'
                         sh 'terraform apply -auto-approve -no-color'
                     }  
                 }

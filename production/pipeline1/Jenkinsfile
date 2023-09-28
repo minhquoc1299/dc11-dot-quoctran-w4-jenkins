@@ -26,7 +26,7 @@ pipeline {
         PR_USER_EMAIL = ''
         PR_USER_FULL_NAME = ''
         CREDENTIALS_ID = "devops-${target_ref.replaceAll('refs/heads/', '')}"
-        PROFILE = "devops-${target_ref.replaceAll('refs/heads/', '')}"
+        AWS_PROFILE = "devops-${target_ref.replaceAll('refs/heads/', '')}"
         AWS_REGION_DEFAULT = 'ap-southeast-1'
     }
     stages {
@@ -89,14 +89,10 @@ pipeline {
                         accessKeyVariable: 'AWS_ACCESS_KEY_ID',
                         secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
                     ]]) {
-                        echo '/usr/local/bin/aws configure --profile ${PROFILE} set aws_access_key_id ${AWS_ACCESS_KEY_ID}'
-                        sh '/usr/local/bin/aws configure --profile ${PROFILE} set aws_access_key_id ${AWS_ACCESS_KEY_ID}'
-                        echo '/usr/local/bin/aws configure --profile ${PROFILE} set aws_secret_access_key ${AWS_SECRET_ACCESS_KEY}'
-                        sh '/usr/local/bin/aws configure --profile ${PROFILE} set aws_secret_access_key ${AWS_SECRET_ACCESS_KEY}'
-                        echo '/usr/local/bin/aws configure --profile ${PROFILE} set region ${AWS_REGION_DEFAULT}'
-                        sh '/usr/local/bin/aws configure --profile ${PROFILE} set region ${AWS_REGION_DEFAULT}'
-                        echo 'export AWS_PROFILE=${PROFILE}'
-                        sh 'export AWS_PROFILE=${PROFILE}'
+                        sh '/usr/local/bin/aws configure --profile ${AWS_PROFILE} set aws_access_key_id ${AWS_ACCESS_KEY_ID}'
+                        sh '/usr/local/bin/aws configure --profile ${AWS_PROFILE} set aws_secret_access_key ${AWS_SECRET_ACCESS_KEY}'
+                        sh '/usr/local/bin/aws configure --profile ${AWS_PROFILE} set region ${AWS_REGION_DEFAULT}'
+                        sh 'export AWS_PROFILE=${AWS_PROFILE}'
                         TERRAFORM_PLAN = sh(script: 'terraform plan -no-color', returnStdout: true)
                     }
                     mail(
