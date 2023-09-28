@@ -69,5 +69,8 @@ pipeline {
                 to: 'manager@yopmail.com'
             )
         }
+        always { 
+            cleanWs()
+        }
     }
 }

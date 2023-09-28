@@ -121,5 +121,8 @@ pipeline {
                 to: PR_USER_EMAIL
             )
         }
+        always { 
+            cleanWs()
+        }
     }
 }
