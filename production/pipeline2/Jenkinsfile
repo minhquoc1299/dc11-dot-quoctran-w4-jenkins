@@ -20,7 +20,7 @@ pipeline {
     environment {
         SAMPLE_ID = ''
         CREDENTIALS_ID = "devops-${ref.replaceAll('refs/heads/', '')}"
-        AWS_PROFILE = "devops-${target_ref.replaceAll('refs/heads/', '')}"
+        AWS_PROFILE = "devops-${ref.replaceAll('refs/heads/', '')}"
         ENV = "devops-${ref.replaceAll('refs/heads/', '')}"
         AWS_REGION_DEFAULT = 'ap-southeast-1'
         
