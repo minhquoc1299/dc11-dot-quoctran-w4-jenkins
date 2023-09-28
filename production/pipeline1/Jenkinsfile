@@ -26,6 +26,7 @@ pipeline {
         PR_USER_EMAIL = ''
         PR_USER_FULL_NAME = ''
         CREDENTIALS_ID = "devops-${target_ref.replaceAll('refs/heads/', '')}"
+        PROFILE = "devops-${target_ref.replaceAll('refs/heads/', '')}"
     }
     stages {
         stage('Pipeline 1: User commit and pull request') {
@@ -87,7 +88,7 @@ pipeline {
                         accessKeyVariable: 'AWS_ACCESS_KEY_ID',
                         secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
                     ]]) {
-                     TERRAFORM_PLAN = sh(script: 'terraform plan -no-color', returnStdout: true)
+                        TERRAFORM_PLAN = sh(script: 'export AWS_PROFILE=${PROFILE} && terraform plan -no-color', returnStdout: true)
                     }
                     mail(
                         bcc: '',
