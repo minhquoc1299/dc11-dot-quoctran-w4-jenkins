@@ -29,7 +29,7 @@ pipeline {
         stage('Pipeline 1: GIT Checkout SCM') {
             steps {
                 checkout([$class: 'GitSCM',
-                  branches: [[name: pr_ref]],
+                  branches: [[name: ref]],
                   userRemoteConfigs: [[
                     url: 'https://github.com/minhquoc1299/dc11-dot-quoctran-w4-terraform.git',
                     credentialsId: 'github-account']]
@@ -62,7 +62,7 @@ pipeline {
     post {
         failure {
             mail(
-                bcc: '',
+                bcc: "${ref}",
                 body: "Dear Manager,\n\nTerraform deploy failed. Please check the build logs for details.\n\nThanks,\nJenkins System",
                 cc: 'tmquoc@tma.com.vn',
                 from: '',
